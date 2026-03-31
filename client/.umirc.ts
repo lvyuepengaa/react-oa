@@ -1,13 +1,13 @@
 import { defineConfig } from 'umi';
-const {resolve} = require('path')
+const { resolve } = require('path');
 
 export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  dva: { immer: true }, // Dva/Redux 有一个死规定：不能直接修改 state！ 一个 JS 库，让你用「直接修改数据」的写法
+  dva: { immer: true },
   alias: {
-    // api: resolve(__dirname, './src/services/'), 
+    api: resolve(__dirname, './src/servicer/'),
     components: resolve(__dirname, './src/components'),
     common: resolve(__dirname, './src/common'),
     // config: resolve(__dirname, './src/utils/config'),
@@ -18,4 +18,11 @@ export default defineConfig({
   //   { path: '/', component: '@/pages/index' },
   // ],
   fastRefresh: {},
+  proxy: {
+    '/api': {
+      target: 'http://127.0.0.1:7001',
+      changeOrigin: true,
+    },
+  },
 });
+

@@ -42,7 +42,7 @@ const SmCodeLogin = ({ Input, FormItem, form }) => {
             <FormItem name="mobile" rules={loginRule.mobileRule} hasFeedback>
                 <Input placeholder="请输入手机号码" prefix={IconMap.mobileIcon} onChange={checkedMobile} />
             </FormItem>
-            <FormItem name="code" rules={loginRule.codeRule} hasFeedback>
+            <FormItem name="code" rules={loginRule.smCodeRule} hasFeedback>
                 <Input
                     placeholder="请输入验证码"
                     prefix={IconMap.codeIcon}

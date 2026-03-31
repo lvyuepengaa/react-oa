@@ -11,7 +11,7 @@ export const loginRule = {
   ],
   mobileRule: [
     { 
-      validator:(rule,val) => {
+      validator:(rule, val, callback) => {
         const mobileReg =  /^1[3|4|5|6|7|8][0-9]\d{8}$/;
         switch (true) {
           case !Boolean(val) :
@@ -24,9 +24,9 @@ export const loginRule = {
       }
      },
   ],
-  codeRule: [
+  smCodeRule: [
     { required: true, message: '验证码不能为空' },
-    { max: 6, message: '验证码长度不正确' },
-    { min: 6, message: '验证码长度不正确' }
+    { max: 6, message: '最大长度为6位' },
+    { min: 6, message: '最小长度为6位' },
   ],
 }

@@ -40,19 +40,20 @@ class Http {
         const defaultOptions = {
             mode: 'cors',
             headers: {
-                Authorization: sessionStorage.get('token') || null,
+                Authorization: sessionStorage.getItem('token') || null,
             }
         }
-        if (options.method === 'post' || options.method === 'put') {
+        if (options.method === 'POST' || options.method === 'PUT') {
             defaultOptions.headers['Content-type'] = 'application/json;charset=utf-8'
         }
         const newOptions = { ...defaultOptions, ...options }
+        console.log(newOptions)
         return fetch(url, newOptions)
         .then(checkStatus)
         .then(judgeOkState)
         .then(res=>{
             const token = res.headers.get('Authorization');
-            token && sessionStorage.set('token', token)
+            token && sessionStorage.setItem('token', token)
             return res.json();
         }).catch(handlerError);
     }
@@ -60,25 +61,25 @@ class Http {
     post(url, params = {}, option = {}) {
         const options = Object.assign({ method: 'POST' }, option);
         options.body = JSON.stringify(params);
-        return http.staticFetch(url, options);
+        return Http.staticFetch(url, options);
     }
     //- put请求处理
     put(url, params = {}, option = {}) {
         const options = Object.assign({ method: 'PUT' }, option);
         options.body = JSON.stringify(params);
-        return http.staticFetch(url, options);
+        return Http.staticFetch(url, options);
     }
     //- get请求处理
     get(url, option = {}) {
         const options = Object.assign({ method: 'GET' }, option);
         Object.keys(option) && (url += '?' + qs.stringify(option));
-        return http.staticFetch(url, options);
+        return Http.staticFetch(url, options);
     }
     //- delete请求处理
     del(url, option = {}) {
         const options = Object.assign({ method: 'DELETE' }, option);
         Object.keys(option) && (url += '?' + qs.stringify(option));
-        return http.staticFetch(url, options);
+        return Http.staticFetch(url, options);
     }
 }
 
