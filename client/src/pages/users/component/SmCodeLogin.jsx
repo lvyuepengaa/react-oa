@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import IconMap from 'components/IconMap'
 import { Button } from 'antd';
 import { loginRule } from 'utils/rules';
+import $http from 'api'
 
 const SmCodeLogin = ({ Input, FormItem, form }) => {
     const [disabled, setDisabled] = useState(true);
@@ -9,11 +10,17 @@ const SmCodeLogin = ({ Input, FormItem, form }) => {
     let [currenTimeStatus, setCurrentTimeStatus] = useState(true);
     let [currenStatus, setCurrentStatus] = useState(true);
 
-    const _sendSmCode = () => {
+    // 组件发送验证码
+    const _sendSmCode = async () => {
+        const mobile = form.getFieldValue('mobile');
+        const res = await $http.getSmCode({ mobile })
+        console.log(res)
+        // message.success(res.msg)
         setCurrentTimeStatus(false);
         setDisabled(true);
         runTime();
     }
+    // 验证码倒计时
     const runTime = () => {
         const timer = setInterval(() => {
             setCurrentStatus(false);

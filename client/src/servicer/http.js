@@ -1,4 +1,4 @@
-import { qs } from "qs"
+import  qs  from 'qs';
 import { message } from 'antd'
 import { history } from 'umi'
 const fetch = require('dva').fetch
@@ -47,7 +47,6 @@ class Http {
             defaultOptions.headers['Content-type'] = 'application/json;charset=utf-8'
         }
         const newOptions = { ...defaultOptions, ...options }
-        console.log(newOptions)
         return fetch(url, newOptions)
         .then(checkStatus)
         .then(judgeOkState)
