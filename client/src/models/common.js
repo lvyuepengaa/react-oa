@@ -1,0 +1,33 @@
+import $http from 'api'
+
+export default {
+    namespace: 'common',
+    state: {},
+    subscriptions: {
+        setup({ dispatch, history }) {
+            //- 初始化查询用户是否登录，app.start阶段进行执行
+            dispatch({ type: 'queryUserLogin', payload: { history } });
+        },
+    },
+    effects: {
+        *queryUserLogin({ payload }, { put, call }) {
+            const { history, history: { location: { pathname } } } = payload;
+            if (pathname !== 'users/login' && pathname !== 'users/forgerPassword') {
+                if (
+                    !sessionStorage.getItem('userProfile') ||
+                    !sessionStorage.getItem('token') ||
+                    !sessionStorage.getItem('routeList')
+                ) {
+                    history.replace('/users/login')
+                } else {
+                    const res = yield call($http.queryUserLogin)
+                    if (res.code !== 0) return;
+                    const { date: routeList } = yield call($http.getRouteList)
+                    sessionStorage.setItem('routeList', JSON.stringify(routeList));
+                }
+            }else {
+                sessionStorage.clear();
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import $http from 'api'
 import { message } from 'antd'
+import { history } from 'umi'
 
 export default {
     namespace: 'user',
@@ -8,7 +9,9 @@ export default {
             'userProfile'
         ) ? JSON.parse(sessionStorage.getItem('userProfile')) : null
     },
-    reducers: {},
+    reducers: {
+        updateUserProfile: (state, { payload }) => ({ ...state, ...payload })
+    },
     effects: {
         *login({ payload }, { put, call, select }) {
             const { data, msg } = yield call($http.userLogin, payload);
@@ -18,7 +21,13 @@ export default {
             }
             sessionStorage.setItem('userProfile', JSON.stringify(data))
             //todo 开始进行界面跳转
-            console.log( 'login',data, msg);
+            const routeData = yield call($http.getRouteList);
+            sessionStorage.setItem('routeList', JSON.stringify(routeData.data))
+            yield put({
+                type: 'updateUserProfile',
+                payload: { userInfo: data }
+            })
+            history.push(routeData.data[0].route);
         },
     },
 }
