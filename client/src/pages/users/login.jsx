@@ -35,9 +35,14 @@ const login = ({history}) => {
         </Row>
         <Row className="ft-12">
           <Col span={6} onClick={()=> history.push('/users/forgetPassword')}>忘记密码？</Col>
-          <Col span={18} className="align-right" onClick={() => setType(!type? 1 : 0)}>
-          {!type ? "使用手机号码进行登录" : "使用账户名密码进行登录" }
-          {IconMap.arrRowRight}
+          <Col span={18}>
+            <p
+              className="login-methods-container login-methods"
+              onClick={() => setType(!type ? 1 : 0)}
+            >
+              {!type ? '使用手机号码登录' : '使用账户名密码进行登录'}
+              {IconMap.arrowRight}
+            </p>
           </Col>
           {/* <Button type='primary'>登录</Button> */}
         </Row>

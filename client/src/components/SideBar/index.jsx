@@ -4,21 +4,28 @@ import {history} from 'umi'
 import IconMap from '../IconMap'
 import { Link } from 'umi'
 
-const SideBar = ({ Sider, Menu }) => {
+const SideBar = ({Sider, Menu, collapse}) => {
     const pathName = history.location.pathname;
-    const routeList = sessionStorage.getItem('routeList') ? JSON.parse(sessionStorage.getItem('routeList')) : [];
-    console.log(routeList)
+    let routeList = sessionStorage.getItem('routeList');
+    routeList = !(routeList === null || routeList === "undefined") ? JSON.parse(routeList) : [];
+    
+    const menuItems = routeList?.map(item => ({
+        key: item.route,
+        icon: IconMap[item.icon],
+        label: item.zhName,
+        onClick:()=> history.push(item.route)
+    }))
     return (
         <Sider theme="light" className="side-bar">
             <div className="brand">
                 <div className="logo">
                     <img src={PYLogo} alt="" />
-                    <h1>鹏乙人事系统</h1>
+                    { !collapse ?<h1>鹏乙人事系统</h1>: "" }
                 </div>
             </div>
             <div className="menu-container">
-                <Menu mode="inline" selecttedKey= {pathName}>
-                    {routeList?.map(item => {
+                <Menu mode="inline" selectedKeys= {pathName} items={menuItems}>
+                    {/* {routeList?.map(item => {
                         return (
                             <Menu.Item key={item.route}>
                                 <Link to={item.route}>
@@ -27,7 +34,7 @@ const SideBar = ({ Sider, Menu }) => {
                                 </Link>
                             </Menu.Item>
                         )
-                    })}
+                    })} */}
                 </Menu>
             </div>
         </Sider>

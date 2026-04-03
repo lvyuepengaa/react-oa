@@ -11,7 +11,7 @@ const Layout = ({ children, history, location }) => {
     const Container = layoutMap[selectLayout(location.pathname)]
     const loading  = useSelector(state=> state.loading) 
     return (
-        <Container isShow={loading.effects['user/login']}><Loading/>{children}</Container>
+        <Container ><Loading isShow={loading.effects['user/login']}/>{children}</Container>
     )
 }
 

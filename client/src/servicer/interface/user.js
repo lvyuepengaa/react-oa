@@ -1,4 +1,4 @@
-import ajax from '../http'
+import ajax from '../http.js'
 
 export const userLogin = (params) => ajax.post('/login', params);
 

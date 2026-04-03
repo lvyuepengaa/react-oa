@@ -12,20 +12,22 @@ export default {
     effects: {
         *queryUserLogin({ payload }, { put, call }) {
             const { history, history: { location: { pathname } } } = payload;
-            if (pathname !== 'users/login' && pathname !== 'users/forgerPassword') {
+            console.log(pathname)
+            if (pathname !== '/users/login' && pathname !== '/users/forgetPassword') {
                 if (
                     !sessionStorage.getItem('userProfile') ||
                     !sessionStorage.getItem('token') ||
                     !sessionStorage.getItem('routeList')
                 ) {
-                    history.replace('/users/login')
+                    history.replace('/users/login');
                 } else {
-                    const res = yield call($http.queryUserLogin)
+                    //- 用户满足条件，进行登录信息的检测
+                    const res = yield call($http.queryUserLogin);
                     if (res.code !== 0) return;
-                    const { date: routeList } = yield call($http.getRouteList)
+                    const { data: routeList } = yield call($http.getRouteList);
                     sessionStorage.setItem('routeList', JSON.stringify(routeList));
                 }
-            }else {
+            } else {
                 sessionStorage.clear();
             }
         }
